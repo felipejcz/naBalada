@@ -1,0 +1,216 @@
+/*! HTML5 Boilerplate v4.3.0 | MIT License | http://h5bp.com/ */
+* {
+    margin: 0;
+    padding: 0;
+}
+html,
+button,
+input,
+select,
+textarea {
+    color: #222;
+}
+
+html {
+    font-size: 1em;
+    line-height: 1.4;
+}
+
+
+
+::-moz-selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+audio,
+canvas,
+img,
+video {
+    vertical-align: middle;
+}
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.browsehappy {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+label {
+    font-size: 0.7em;
+}
+
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+body{
+    background-color: #000000;
+}
+.container_12{
+    background-color: #FFF;
+}
+
+hr.espaco {
+    display: block;
+    float: left;
+    color: solid #FFF;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 10px;
+}
+
+#topo {
+    padding: 0px;
+    margin: 0px;
+}
+#player{
+    -webkit-border-radius: 10px;
+}
+
+
+#main {
+}
+
+#evento_anterior {
+    -webkit-border-radius: 10px;
+}
+
+#proximo_evento {
+}
+
+#anuncio {
+    -webkit-border-radius: 10px;
+}
+
+#agenda {
+    margin-top: 10px;
+
+}
+
+#rodape {
+    
+}
+
+.rodape {
+    -webkit-border-radius: 10px;
+}
+
+#formLogin{
+    margin-top: 5px;
+    background-color: #838383;
+    -webkit-border-radius: 5px;
+}
+
+#formLogin table {
+    float: right;
+}
+
+#formLogado{
+    margin-top: 5px;
+    background-color: #838383;
+    -webkit-border-radius: 5px;
+}
+
+#formLogado table {
+    float: right;
+}
+
+input.botao {
+    font-size: 0.7em;
+    width: 60px;
+    height: 18px;
+    margin-top: 0px;
+    margin-right: 2px;
+}
+
+input.txtboxUser {
+    font-size: 0.7em;
+    width: 80px;
+    height: 10px;
+    margin-bottom: 5px;
+}
+input.txtboxPass {
+    font-size: 0.7em;
+    width: 60px;
+    height: 10px;
+}
+#menu{
+    float: left;  
+
+}
+div#menu a{
+    text-decoration: none;
+    color: #FFFFFF;
+}
+div#menu ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-top: 10px;
+}
+
+div#menu ul li{
+    float: left;
+    padding: 10px 20px;
+    margin-left: 5px;
+    background-color: #4d4d4d;
+    border-right: 1px solid #FFFFFF;    
+    border-top: 1px solid #FFFFFF;
+    border-bottom: 1px solic #FFFFFF;
+    position: relative;
+    width: 110px;
+    text-align: center;
+    font-size: 1.5em;
+
+}
+
+div#menu ul li ul{
+    position: absolute;
+    top: 53px;
+    left: 0px;
+    display: none;
+    
+}
+div#menu ul li:hover{
+    background-color: #333333;
+    color: #FFFFFF;
+    -moz-box-shadow:0 3px 10px 0 #CCC; 
+    -webkit-box-shadow:0 3px 10px 0 #ccc; 
+    text-shadow:0px 0px 5px #fff; 
+}
+
+div#menu li ul li{
+    border:1px solid #c0c0c0; 
+    display:block; 
+    width:95px;    
+    font-size: 0.7em;
+}
+div#menu ul li:hover ul{
+    display: block;
+}
+
+.evento td{
+    border: 1px solid #000;
+    padding: 5px;
+}
+
