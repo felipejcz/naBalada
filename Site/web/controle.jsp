@@ -3,37 +3,34 @@
 <%
     try{
         String action = request.getParameter("action");
-            if(action.equalsIgnoreCase("cadastrar")){
-                Usuario usu = new Usuario();
-                usu.setUsuario(request.getParameter("txtUsuario"));
-                usu.setSenha(request.getParameter("txtSenha"));
-                UsuarioDAO ud = new UsuarioDAO();
-                try{
-                    ud.cadastrar(usu);
-                    request.setAttribute("msg", "Usuario cadastrado");
-                    request.getRequestDispatcher("index.jsp").forward(request, response);
-                }catch(Exception e){
-                    out.print("Erro: "+e.getMessage());
-                }
-            }
             
             if(action.equalsIgnoreCase("logar")){
-                Usuario usu = new Usuario();
-                usu.setUsuario(request.getParameter("txtUser"));
-                usu.setSenha(request.getParameter("txtPass"));
-                UsuarioDAO ud = new UsuarioDAO();
-                try{
-                    if(ud.validar(usu))
-                    request.getRequestDispatcher("index2.jsp").forward(request, response);
-                    else
-                        request.setAttribute("msg", "Falha ao logar");
-                        request.getRequestDispatcher("index.jsp").forward(request, response);
-                }catch(Exception e){                   
-                    out.print("Erro: "+e.getMessage());
+                
+                String login_form = request.getParameter("txtUser"); // Pega o Login vindo do formulario
+                String senha_form = request.getParameter("txtPass"); //Pega a senha vinda do formulario
+                out.print(login_form);
+                Usuario user = null;
+                
+                    UsuarioDAO dao = new UsuarioDAO(); //cria uma instancia do DAO usuarios                    
+                    user = dao.getUser(login_form, senha_form);
+               
+                //se nao encontrou usuario no banco, redireciona para a pagina de erro!
+                if ( user == null ) {
+                    session.invalidate();
+                    request.setAttribute("msg", "Usuario não cadastrado");
+                    request.getRequestDispatcher("index.jsp" ).forward(request, response);
                 }
+                else{
+                    //se o dao retornar um usuario, coloca o mesmo na sessao
+                    session.setAttribute("user", user);
+                    request.getRequestDispatcher("index.jsp" ).forward(request, response);
+                }
+                    
             }
+    
     }catch(NullPointerException e){
-        out.print("Acesso negado");
+        request.setAttribute("msg", "Acesso negado");
+        request.getRequestDispatcher("index.jsp" ).forward(request, response);
     }
     
 %>

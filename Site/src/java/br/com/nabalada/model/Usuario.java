@@ -10,6 +10,7 @@ public class Usuario {
     private String email;
     private int nivelAcesso;
     
+    
     public String getUsuario() {
         return usuario;
     }

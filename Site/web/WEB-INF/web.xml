@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>ControleMain</servlet-name>
+        <servlet-class>br.com.nabalada.controller.ControleMain</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ControleMain</servlet-name>
+        <url-pattern>/ControleMain</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ControleEvento</servlet-name>
+        <servlet-class>br.com.nabalada.controller.ControleEvento</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ControleEvento</servlet-name>
+        <url-pattern>/ControleEvento</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ControleUsuario</servlet-name>
+        <servlet-class>br.com.nabalada.controller.ControleUsuario</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ControleUsuario</servlet-name>
+        <url-pattern>/ControleUsuario</url-pattern>
+    </servlet-mapping>    
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>ControleMain</welcome-file>
+    </welcome-file-list>
+</web-app>

@@ -1,113 +1,81 @@
-<%@page import="br.com.nabalada.model.Evento, br.com.nabalada.persistence.EventoDAO" %>
-<%@page import="java.util.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="br.com.nabalada.model.Evento, br.com.nabalada.persistence.EventoDAO, br.com.nabalada.model.Usuario" %>
+<%@page import="java.util.*"%>
+<%
+    Usuario user = (Usuario)session.getAttribute("user");
+%>
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Cadastro de Eventos</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="pt-br">
+<head>
+	<title>Nabalada - Cadastro de Eventos</title>
+	<meta charset="utf-8">
 
-        <link rel="stylesheet" href="css/reset.css">
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/grid.css">
-        <link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="css/grid.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
 
         <script src="js/modernizr-2.6.2.min.js"></script>
-    </head>
-    <body>
-        
-        <header id="topo">
-                <div class="container_12">
-                    <div class="grid_12">
-                        <img id="player" src="http://placehold.it/940x250">
-                    </div>
+</head>
+<body>
 
+<header>
+	<div class="container_12">
+		<div id="topo" class="grid_12">
+		</div>
+	<div class="container_12">
+		<div id="login" class="grid_12">
+                    
+                    <span class="msg">${msg}</span>
+                    <form action="ControleMain?action=logoff" method="POST">
+                        <input type="submit" class="logoff" value="Logoff" />
+                    </form>
                 </div>
-                <div class="container_12">
-                    <div id="formLogin" class="grid_12">
-                        ${msg}
-                        <table>
-                            <tr>
-                                <td>
-                                    <form action="controle.jsp?action=logar" method="POST">
-                                        <fieldset>
-                                            <label for="txtUser">Usuário:</label><input type="text" name="txtUser" class="txtboxUser" >
-                                            <label for="txtPass">Senha:</label><input type="password" name="txtPass" class="txtboxPass">
-                                            <input type="submit" class="botao" value="Entrar">
-                                            <input type="button" class="botao" value="Registrar">
-                                        </fieldset>
-                                    </form>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+	</div>
+	</div>
+	<div class="container_12">
+		<div id="menu" class="grid_12">
+			<nav>
+				<ul>
+					<li><a href="ControleMain">Inicial</a></li>
+					<li><a href="ControleEvento">Eventos</a></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
 
-        </header>
-        <div id="main" class="container_12">
-            <hr class="espaco">
-            <div class="grid_12">
-                <section class="evento">
-                    <a href="CadUsuario.jsp">Usuario</a>
-                    <h1>Eventos:</h1>
-                    <table>
-                        <tr>
-                            <td>Id</td>
-                            <td>Titulo</td>
-                            <td>Descrição</td>
-                            <td>Local</td>
-                            <td>Data</td>
-                            <td>Hora</td>
-                            <td>Atualizar</td>
-                            <td>Excluir</td>
-                        </tr>
-                        <% 
-                        try{
-                            EventoDAO ed = new EventoDAO();
-                            List<Evento> lista = new ArrayList<Evento>();
-                            lista = ed.listar();
-                            for(Evento e : lista){
-                            %>
-                            
-                            <tr>
-                                <td><%= e.getId()%></td>
-                                <td><%= e.getTitulo()%></td>
-                                <td><%= e.getDescricao()%></td>
-                                <td><%= e.getLocal()%></td>
-                                <td><%= e.getData()%></td>
-                                <td><%= e.getHora()%></td>
-                                <td>Atualizar?</td>
-                                <td>Excluir?</td>
-                            </tr>
-                            <%
-                            }
-                        }catch(Exception e){
-                            out.print("Erro:"+e.getMessage());
-                        }
-                        %>
+</header>
+
+<article>
+	<div id="main" class="container_12">
+		<div id="main_esquerdo" class="grid_2">
+		</div>
+		<div id="main_centro" class="grid_8">
+                    <div id="txt_centro">
+                        <h2><a href="ControleUsuario">Cad Usuario</a></h2>
                         
-                    </table>
-                    
-                    
-                </section>
-                
-            </div>
-        </div>
+                        <form action="ControleEvento?action=cadastrar" method="POST">
+                            <label for="titulo">Titulo:</label><input type="text" id="titulo" name="titulo" /><br>
+                            <label for="titulo">Descrição:</label><input type="text" id="descricao" name="descricao" /><br>
+                            <label for="titulo">Local:</label><input type="text" id="local" name="local" /><br>
+                            <label for="titulo">Data:</label><input type="text" id="data" name="data" /><br>
+                            <label for="titulo">Hora:</label><input type="text" id="hora" name="hora" /><br>
+                            <input type="hidden" name="criador" id="criador" value="" />
+                        </form>
+                    </div>
+		</div>
+		<div id="main_direito" class="grid_2">
+		</div>
+	</div>
+	
+</article>
 
-        <footer id="rodape">
-            <div class="container_12">
-                <hr class="espaco">
-                <div class="grid_12">
-                    <img class="rodape" src="http://placehold.it/940x150">
-                </div>
-            </div>
-        </footer>
-        
-    </body>
+<footer>
+	<div class="container_12">
+		<div id="rodape" class="grid_12">
+		</div>
+	</div>
+</footer>
+
+</body>
 </html>
