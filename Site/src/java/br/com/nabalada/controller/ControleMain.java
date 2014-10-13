@@ -8,8 +8,6 @@ import br.com.nabalada.persistence.UsuarioDAO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -97,10 +95,10 @@ public class ControleMain extends HttpServlet {
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             }
     
-    }catch(NullPointerException e){
-        request.setAttribute("msg", "Acesso negado");
-        request.getRequestDispatcher("index.jsp" ).forward(request, response);
-    }
+        }catch(NullPointerException e){
+            request.setAttribute("msg", "Acesso negado");
+            request.getRequestDispatcher("index.jsp" ).forward(request, response);
+        }
     }
 
 

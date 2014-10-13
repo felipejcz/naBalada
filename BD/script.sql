@@ -38,17 +38,19 @@ VALUES('Primeiro Evento','Breve descrição sobre o primeiro evento','Local pert
 INSERT INTO evento(titulo,descricao,local,data,hora,criador,autorizado)
 VALUES('Segundo Evento','Breve descrição sobre o segundo evento','Local longinho','25/10/2014','2030',1,false);
 
+DELETE Evento where id=1;
+
 SELECT * FROM Evento;
 
+SELECT e.id,titulo,descricao,local,data,hora,foto,localizacao,p.nome AS criador,autorizado,m.nome AS moderador,comentario FROM Usuario p, Usuario m, Evento e where e.criador = p.id AND e.moderador = m.id order by e.id;
 
-
-SELECT titulo,descricao,local,data,hora,Usuario.nome,autorizado FROM Evento inner join Usuario on (Evento.criador = Usuario.id);
+SELECT titulo,descricao,local,data,hora,Usuario.nome,autorizado FROM Evento inner join Usuario on (Evento.criador = Usuario.id) order by Evento.id;
 
 SELECT Evento.id,titulo,descricao,local,data,hora,foto,localizacao,Usuario.nome AS criador,autorizado,Usuario.nome AS moderador,comentario FROM Evento inner join Usuario on (Evento.criador = Usuario.id AND Evento.moderador = Usuario.id);
 
 UPDATE Evento set titulo='Primeiro evento',descricao='Breve descrição sobre o evento',local='Local pertinho',data='2014-10-23',hora='22:30:00',foto='',localizacao='',criador=1,autorizado=false,moderador=3,comentario='' WHERE id=1;
 
-UPDATE Evento set moderador=0 where id=2;
+UPDATE Evento set moderador=0 where id=8;
 
 //Mostrar dois id na mesma pesquisa
 SELECT Evento.titulo, pessoa.nome,moderador.nome FROM usuario as pessoa, usuario as moderador, Evento where Evento.criador = pessoa.id and Evento.moderador = moderador.id; 

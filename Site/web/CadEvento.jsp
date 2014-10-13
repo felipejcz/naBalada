@@ -2,6 +2,7 @@
 <%@page import="br.com.nabalada.model.Evento, br.com.nabalada.persistence.EventoDAO, br.com.nabalada.model.Usuario" %>
 <%@page import="java.util.*"%>
 <%
+    if(session.getAttribute("user")!=null){
     Usuario user = (Usuario)session.getAttribute("user");
 %>
 <!DOCTYPE html>
@@ -52,15 +53,14 @@
 		</div>
 		<div id="main_centro" class="grid_8">
                     <div id="txt_centro">
-                        <h2><a href="ControleUsuario">Cad Usuario</a></h2>
-                        
+                        <h2>Cadastro de Evento:</h2>
                         <form action="ControleEvento?action=cadastrar" method="POST">
                             <label for="titulo">Titulo:</label><input type="text" id="titulo" name="titulo" /><br>
-                            <label for="titulo">Descrição:</label><input type="text" id="descricao" name="descricao" /><br>
-                            <label for="titulo">Local:</label><input type="text" id="local" name="local" /><br>
-                            <label for="titulo">Data:</label><input type="text" id="data" name="data" /><br>
-                            <label for="titulo">Hora:</label><input type="text" id="hora" name="hora" /><br>
-                            <input type="hidden" name="criador" id="criador" value="" />
+                            <label for="descricao">Descrição:</label><input type="text" id="descricao" name="descricao" /><br>
+                            <label for="local">Local:</label><input type="text" id="local" name="local" /><br>
+                            <label for="data">Data:</label><input type="text" id="data" name="data" /><br>
+                            <label for="hora">Hora:</label><input type="text" id="hora" name="hora" /><br>
+                            <input type="submit" value="Cadastrar"/>
                         </form>
                     </div>
 		</div>
@@ -79,3 +79,8 @@
 
 </body>
 </html>
+<%
+    }else{
+        request.setAttribute("msg", "Acesso não permitido!");
+    }
+%>

@@ -49,9 +49,7 @@ if (session.getAttribute("user") != null){
 
 <article>
 	<div id="main" class="container_12">
-		<div id="main_esquerdo" class="grid_2">
-		</div>
-		<div id="main_centro" class="grid_8">
+		<div id="main_centro" class="grid_12">
                     <div id="txt_centro">
                         <h2><a href="ControleUsuario">Cad Usuario</a></h2>
                         
@@ -96,10 +94,12 @@ if (session.getAttribute("user") != null){
                                 %>
                             </tr>
                             <%
-                            List<Evento> lista = (List<Evento>)request.getAttribute("listaEvento");
+                            EventoDAO dao = new EventoDAO();        
+                            List<Evento> lista = (List<Evento>)dao.listar();
                             for(Evento evento : lista){
                             %>
                             <tr>
+                            <input type="hidden" value="<%=evento.getId()%>" id="id" name="id" />
                                 <td><%= evento.getTitulo()%></td>
                                 <td><%= evento.getDescricao()%></td>
                                 <td><%= evento.getLocal()%></td>
@@ -124,8 +124,8 @@ if (session.getAttribute("user") != null){
                                 <td><% if(evento.getAutorizado()==true){out.print("Sim");}else{out.print("Não");}%></td>
                                 <td><%= evento.getModerador()%></td>
                                 <td><%= evento.getComentario()%></td>
-                                <td><a href="#">Atualizar</a></td>
-                                <td><a href="#">Excluir</a></td>
+                                <td><a href="ControleEvento?action=atualizar&id=id">Atualizar</a></td>
+                                <td><a href="ControleEvento?action=excluir&id=<%=evento.getId()%>">Excluir</a></td>
                                 <%
                                 }
                                 %>
@@ -136,8 +136,6 @@ if (session.getAttribute("user") != null){
                             %>                    
                     </table>
                     </div>
-		</div>
-		<div id="main_direito" class="grid_2">
 		</div>
 	</div>
 	

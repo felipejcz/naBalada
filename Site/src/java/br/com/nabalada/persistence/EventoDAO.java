@@ -2,6 +2,8 @@
 package br.com.nabalada.persistence;
 
 import br.com.nabalada.model.Evento;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,29 +11,39 @@ public class EventoDAO extends DAO {
     
     public void cadastrar(Evento ev)throws Exception{
         OpenDB();
-        int criador = 0;
-        pstmt = con.prepareStatement("SELECT Usuario.id FROM Evento inner join Usuario on ('"+ev.getCriador()+"'= Usuario.nome);");
+        String sql = "SELECT id FROM Usuario WHERE usuario =?;";
+        pstmt = con.prepareStatement(sql);
+        pstmt.setString(1, ev.getCriador());
         rs = pstmt.executeQuery();
+        int id=8;
         if(rs.next()){
-            criador = rs.getInt("id");
+            id = rs.getInt("id");
         }
-        String sql = "INSERT INTO Evento(titulo,descricao,local,data,hora,criador,autorizado,moderador)VALUES(?,?,?,?,?,?,false,0);";
+        sql = "INSERT INTO Evento(titulo,descricao,local,data,hora,criador,autorizado,moderador)"
+                + "VALUES(?,?,?,?,?,?,?,?);";
+        pstmt.clearParameters();
         pstmt = con.prepareStatement(sql);
         pstmt.setString(1, ev.getTitulo());
         pstmt.setString(2, ev.getDescricao());
         pstmt.setString(3, ev.getLocal());
-        pstmt.setString(4, ev.getData());
-        pstmt.setString(5, ev.getHora());
-        pstmt.setInt(6, criador);
+        DateFormat date = new SimpleDateFormat("dd/MM/yyyy");  
+        java.sql.Date data = new java.sql.Date(date.parse(ev.getData()).getTime());
+        pstmt.setDate(4, data);
+        DateFormat formato = new SimpleDateFormat("HH:mm");  
+        java.sql.Time hora = new java.sql.Time(formato.parse(ev.getHora()).getTime()); 
+        pstmt.setTime(5, hora);
+        pstmt.setInt(6, id);
+        pstmt.setBoolean(7, ev.getAutorizado());
+        pstmt.setInt(8, 0);
         pstmt.execute();
         CloseDB();
     }
     
-    public void deletar(Evento ev)throws Exception{
+    public void deletar(int id)throws Exception{
         OpenDB();
         String sql = "DELETE FROM Evento where id=?;";
         pstmt = con.prepareStatement(sql);
-        pstmt.setInt(1, ev.getId());
+        pstmt.setInt(1, id);
         pstmt.execute();
         CloseDB();
     }
@@ -58,7 +70,7 @@ public class EventoDAO extends DAO {
     
     public List<Evento> listar()throws Exception{
         OpenDB();
-        String sql = "SELECT Evento.id,titulo,descricao,local,data,hora,foto,localizacao,pessoa.nome AS criador,autorizado,moderador.nome AS moderador,comentario FROM Usuario pessoa, Usuario moderador, Evento WHERE Evento.criador = pessoa.id and Evento.moderador = moderador.id;";
+        String sql = "SELECT e.id,titulo,descricao,local,data,hora,foto,localizacao,p.nome AS criador,autorizado,m.nome AS moderador,comentario FROM Usuario p, Usuario m, Evento e where e.criador = p.id AND e.moderador = m.id order by e.id;";
         pstmt = con.prepareStatement(sql);
         rs = pstmt.executeQuery();
         Evento ev = null;
