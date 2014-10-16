@@ -33,7 +33,7 @@
 				<label for="txtUser">Usuário:</label><input type="text" name="txtUser" id="txtUser" />
 				<label for="txtPass">Senha:</label><input type="text" name="txtPass" id="txtPass" />
 				<input type="submit" value="Entrar" />
-				<input type="button" value="Cadastrar" onclick="window.location='ControleUsuario'" />
+				<input type="button" value="Cadastrar" onclick="window.location='cadUsuario.jsp'" />
 			</form>
                                 <% }else{ %>
                                     
@@ -51,6 +51,7 @@
 				<ul>
 					<li><a href="ControleMain">Inicial</a></li>
 					<li><a href="ControleEvento">Eventos</a></li>
+                                        <li><a href="ControleUsuario">Usuario</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -60,16 +61,35 @@
 
 <article>
 	<div id="main" class="container_12">
-		<div id="main_esquerdo" class="grid_2">
-		</div>
-		<div id="main_centro" class="grid_8">
+		<div id="main_centro" class="grid_12">
                     <div id="txt_centro">
-                        <h2><a href="ControleUsuario">Cad Usuario</a></h2>
-                        
+                        <table>
+                            <legend>Eventos</legend>
+                            <tr>
+                                <td>Titulo:</td>
+                                <td>Descrição</td>
+                                <td>Data:</td>
+                                <td>Leia mais...</td>
+                            </tr>
+                            <%
+                              EventoDAO dao = new EventoDAO();
+                              List<Evento> lista = dao.listar();
+                              for(Evento evento : lista){
+                                  if(evento.getAutorizado()){
+                            %>
+                            <tr>
+                                <td><%=evento.getTitulo()%></td>
+                                <td><%=evento.getDescricao()%></td>
+                                <td><%=evento.getData()%></td>
+                                <td><a href="#">Ver Evento</a></td>
+                            </tr>
+                            <%
+                                }    
+                            }  
+                            %>
+                        </table>
                     </div>
-		</div>
-		<div id="main_direito" class="grid_2">
-		</div>
+                </div>        
 	</div>
 	
 </article>

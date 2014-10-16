@@ -32,11 +32,11 @@ comentario varchar(50)
 
 );
 
-INSERT INTO evento(titulo,descricao,local,data,hora,criador,autorizado)
-VALUES('Primeiro Evento','Breve descrição sobre o primeiro evento','Local pertinho','23/10/2014','22:30',1,false);
+INSERT INTO evento(titulo,descricao,local,data,hora,criador,autorizado,moderador)
+VALUES('Primeiro Evento','Breve descrição sobre o primeiro evento','Local pertinho','23/10/2014','22:30',1,false,0);
 
-INSERT INTO evento(titulo,descricao,local,data,hora,criador,autorizado)
-VALUES('Segundo Evento','Breve descrição sobre o segundo evento','Local longinho','25/10/2014','2030',1,false);
+INSERT INTO evento(titulo,descricao,local,data,hora,criador,autorizado,moderador)
+VALUES('Segundo Evento','Breve descrição sobre o segundo evento','Local longinho','25/10/2014','2030',1,false,0);
 
 DELETE Evento where id=1;
 

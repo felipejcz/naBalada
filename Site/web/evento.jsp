@@ -124,8 +124,8 @@ if (session.getAttribute("user") != null){
                                 <td><% if(evento.getAutorizado()==true){out.print("Sim");}else{out.print("Não");}%></td>
                                 <td><%= evento.getModerador()%></td>
                                 <td><%= evento.getComentario()%></td>
-                                <td><a href="ControleEvento?action=atualizar&id=id">Atualizar</a></td>
-                                <td><a href="ControleEvento?action=excluir&id=<%=evento.getId()%>">Excluir</a></td>
+                                <td><a href="ControleEvento?action=atualizar&idEvento=<%=evento.getId()%>">Atualizar</a></td>
+                                <td><a href="ControleEvento?action=excluir&idEvento=<%=evento.getId()%>">Excluir</a></td>
                                 <%
                                 }
                                 %>

@@ -43,36 +43,48 @@ public class UsuarioDAO extends DAO{
     
     public void cadastrar(Usuario usu)throws Exception{
         OpenDB();
-        String sql = "INSERT INTO Usuario(usuario,senha) values(?,?);";
+        String sql = "INSERT INTO Usuario(usuario,senha,nome,email,nivelAcesso_id) values(?,?,?,?,?);";
         pstmt = con.prepareStatement(sql);
         pstmt.setString(1, usu.getUsuario());
         pstmt.setString(2, usu.getSenha());
+        pstmt.setString(3, usu.getNome());
+        pstmt.setString(4, usu.getEmail());
+        pstmt.setInt(5, 1);
         pstmt.execute();
         CloseDB();
     }
     
-    public void deletar(Usuario usu)throws Exception{
+    public void deletar(int id) throws Exception{
         OpenDB();
-        String sql = "DELETE FROM Usuario where usuario=?;";
+        String sql = "UPDATE Evento set criador=0 where criador=?;";
         pstmt = con.prepareStatement(sql);
-        pstmt.setString(1, usu.getUsuario());
+        pstmt.setInt(1, id);
+        pstmt.execute();
+        pstmt.clearParameters();
+        sql = "DELETE FROM Usuario where id=?";
+        pstmt = con.prepareStatement(sql);
+        pstmt.setInt(1, id);
         pstmt.execute();
         CloseDB();
     }
     
     public void atualizar(Usuario usu)throws Exception{
         OpenDB();
-        String sql = "UPDATE Usuario set usuario=?, senha=? where id=?;";
+        String sql = "UPDATE Usuario set usuario=?, senha=?, nome=?, email=?, nivelAcesso_id=? where id=?;";
         pstmt = con.prepareStatement(sql);
         pstmt.setString(1, usu.getUsuario());
         pstmt.setString(2, usu.getSenha());
-        pstmt.setInt(3, usu.getId());
+        pstmt.setString(3, usu.getNome());
+        pstmt.setString(4, usu.getEmail());
+        pstmt.setInt(5, usu.getNivelAcesso());
+        pstmt.setInt(6, usu.getId());
         pstmt.executeUpdate();
+        CloseDB();
     }
     
     public List<Usuario> listar()throws Exception{
         OpenDB();
-        String sql = "SELECT * FROM Usuario;";
+        String sql = "SELECT * FROM Usuario order by nome;";
         pstmt = con.prepareStatement(sql);
         rs = pstmt.executeQuery();
         Usuario usu = null;
@@ -90,23 +102,5 @@ public class UsuarioDAO extends DAO{
         CloseDB();
         return lista;
     }
-    
-    public boolean validar(Usuario usu)throws Exception{
-        List<Usuario> lista = listar();
-        OpenDB();
-        
-        for(Usuario u : lista){
-            if(u.getUsuario().equals(usu.getUsuario())){
-                if(u.getSenha().equals(usu.getSenha())){
-                    return true;
-                }
-            }
-        }
-        CloseDB();
-        return false;
-    }
-    
-    
-    
-    
+ 
 }

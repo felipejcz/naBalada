@@ -50,18 +50,37 @@ public class EventoDAO extends DAO {
     
     public void atualizar(Evento ev)throws Exception{
         OpenDB();
+        int criador=0,moderador=0;
+        pstmt = con.prepareStatement("SELECT id FROM Usuario WHERE usuario=?;");
+        pstmt.setString(1, ev.getCriador());
+        rs = pstmt.executeQuery();
+        if(rs.next()){
+            criador = rs.getInt("id");
+        }
+        pstmt.clearParameters();
+        pstmt = con.prepareStatement("SELECT id FROM Usuario WHERE usuario=?;");
+        pstmt.setString(1, ev.getModerador());
+        rs = pstmt.executeQuery();
+        if(rs.next()){
+            moderador = rs.getInt("id");
+        }
+        pstmt.clearParameters();
         String sql = "UPDATE Evento set titulo=?,descricao=?,local=?,data=?,hora=?,foto=?,localizacao=?,criador=?,autorizado=?,moderador=?,comentario=? WHERE id=?;";
         pstmt = con.prepareStatement(sql);
         pstmt.setString(1, ev.getTitulo());
         pstmt.setString(2, ev.getDescricao());
         pstmt.setString(3, ev.getLocal());
-        pstmt.setString(4, ev.getData());
-        pstmt.setString(5, ev.getHora());
+        DateFormat date = new SimpleDateFormat("dd/MM/yyyy");  
+        java.sql.Date data = new java.sql.Date(date.parse(ev.getData()).getTime());
+        pstmt.setDate(4, data);
+        DateFormat formato = new SimpleDateFormat("HH:mm");  
+        java.sql.Time hora = new java.sql.Time(formato.parse(ev.getHora()).getTime()); 
+        pstmt.setTime(5, hora);
         pstmt.setString(6, ev.getFoto());
         pstmt.setString(7, ev.getLocalizacao());
-        pstmt.setString(8, ev.getCriador());
+        pstmt.setInt(8, criador);
         pstmt.setBoolean(9, ev.getAutorizado());
-        pstmt.setString(10, ev.getModerador());
+        pstmt.setInt(10, moderador);
         pstmt.setString(11, ev.getComentario());
         pstmt.setInt(12, ev.getId());
         pstmt.executeUpdate();
@@ -70,7 +89,7 @@ public class EventoDAO extends DAO {
     
     public List<Evento> listar()throws Exception{
         OpenDB();
-        String sql = "SELECT e.id,titulo,descricao,local,data,hora,foto,localizacao,p.nome AS criador,autorizado,m.nome AS moderador,comentario FROM Usuario p, Usuario m, Evento e where e.criador = p.id AND e.moderador = m.id order by e.id;";
+        String sql = "SELECT e.id,titulo,descricao,local,data,hora,foto,localizacao,p.usuario AS criador,autorizado,m.usuario AS moderador,comentario FROM Usuario p, Usuario m, Evento e where e.criador = p.id AND e.moderador = m.id order by e.id;";
         pstmt = con.prepareStatement(sql);
         rs = pstmt.executeQuery();
         Evento ev = null;
@@ -94,6 +113,7 @@ public class EventoDAO extends DAO {
         CloseDB();
         return lista;
     }
+    
     
   
     

@@ -22,15 +22,38 @@ public class ControleEvento extends HttpServlet {
         try {
             if(request.getParameter("action").equalsIgnoreCase("excluir")){
             EventoDAO dao = new EventoDAO(); 
-            dao.deletar(Integer.parseInt(request.getParameter("id")));
-            request.setAttribute("msg", "Evento excluido!");
-            }else{
-                request.setAttribute("msg", "Falha ao excluir evento!");
+                try {
+                    dao.deletar(Integer.parseInt(request.getParameter("idEvento")));
+                    request.setAttribute("msg", "Evento excluido!");
+                    request.getRequestDispatcher("evento.jsp").forward(request, response);
+                } catch (Exception e) {
+                    request.setAttribute("msg", "Evento não excluido "+e.getMessage());
+                    request.getRequestDispatcher("evento.jsp").forward(request, response);
+                }
+            
+            }else if(request.getParameter("action").equalsIgnoreCase("atualizar")){
+                int id = Integer.parseInt(request.getParameter("idEvento"));
+                EventoDAO dao = new EventoDAO();
+                List<Evento> lista;
+                try {
+                    lista = dao.listar();
+                    for(Evento evento : lista){
+                    if(evento.getId() == id){
+                        request.setAttribute("eventoEvento", evento);
+                        request.getRequestDispatcher("atualizaEvento.jsp").forward(request, response);
+                    }
+                }
+                } catch (Exception ex) {
+                    request.setAttribute("msg", "Erro ao abrir pagina atualizaEvento");
+                    request.getRequestDispatcher("evento.jsp").forward(request, response);
+                }
             }
+            
         } catch (Exception e) {
+            request.getRequestDispatcher("evento.jsp").forward(request, response);
         }
         
-        request.getRequestDispatcher("evento.jsp").forward(request, response);
+        
     }
 
     @Override
@@ -38,10 +61,9 @@ public class ControleEvento extends HttpServlet {
             throws ServletException, IOException {
         try {
             
-        
-        String action = request.getParameter("action");
             
-            if(action.equalsIgnoreCase("cadastrar")){
+            
+            if(request.getParameter("action").equalsIgnoreCase("cadastrar")){
                 Evento ev = new Evento();
                 EventoDAO dao = new EventoDAO();
                 
@@ -60,18 +82,45 @@ public class ControleEvento extends HttpServlet {
                 try {
                     dao.cadastrar(ev);
                     request.setAttribute("msg", "Evento cadastrado com sucesso");
-                    request.getRequestDispatcher("cadEvento.jsp").forward(request, response);
+                    request.getRequestDispatcher("evento.jsp").forward(request, response);
                 } catch (Exception e) {
-                    request.setAttribute("msg", "Evento não cadastrado");
-                    request.getRequestDispatcher("ControleEvento").forward(request, response);
+                    request.setAttribute("msg", "Evento não cadastrado "+e.getMessage());
+                    request.getRequestDispatcher("evento").forward(request, response);
                 }
                 
                 
-            } 
+            }else if(request.getParameter("action").equalsIgnoreCase("atualizar")){
+                Evento ev = new Evento();
+                ev.setId(Integer.parseInt(request.getParameter("id")));
+                ev.setTitulo(request.getParameter("titulo"));
+                ev.setDescricao(request.getParameter("descricao"));
+                ev.setLocal(request.getParameter("local"));
+                ev.setData(request.getParameter("data"));
+                ev.setHora(request.getParameter("hora"));
+                ev.setFoto(request.getParameter("foto"));
+                ev.setLocalizacao(request.getParameter("localizacao"));
+                ev.setCriador(request.getParameter("criador"));
+                if(request.getParameter("autorizado").equals("false")){
+                    ev.setAutorizado(false);
+                }else{
+                    ev.setAutorizado(true);
+                }
+                ev.setModerador(request.getParameter("moderador"));
+                ev.setComentario(request.getParameter("comentario"));
+                
+                try {
+                    EventoDAO dao = new EventoDAO();
+                    dao.atualizar(ev);
+                    request.setAttribute("msg", "Evento atualizado com sucesso");
+                    request.getRequestDispatcher("evento.jsp").forward(request, response);
+                } catch (Exception e) {
+                    request.setAttribute("msg", "Evento não foi atualizado "+e.getMessage());
+                    request.getRequestDispatcher("evento.jsp").forward(request, response);
+                }
+            }
             
         } catch (Exception e) {
-            request.setAttribute("msg", "Erro: "+e.getMessage());
-            request.getRequestDispatcher("cadEvento.jsp").forward(request, response);
+            request.getRequestDispatcher("evento.jsp").forward(request, response);
         }
     }
 

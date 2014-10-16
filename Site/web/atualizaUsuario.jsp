@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-	<title>Nabalada - Cadastro de Eventos</title>
+	<title>Nabalada - Atualizar Usuario</title>
 	<meta charset="utf-8">
 
 	<link rel="stylesheet" type="text/css" href="css/reset.css">
@@ -48,13 +48,18 @@
 	<div id="main" class="container_12">
 		<div id="main_centro" class="grid_12">
                     <div id="txt_centro">
-                        <h2>Cadastro de Usuario</h2>
-                        <form action="ControleUsuario?action=cadastrar" method="POST">
-                            <label for="nome">Nome:</label><input type="text" id="nome" name="nome" /><br>
-                            <label for="usuario">Login:</label><input type="text" id="usuario" name="usuario" /><br>
-                            <label for="senha">Senha:</label><input type="text" id="senha" name="senha" /><br>
-                            <label for="email">Email:</label><input type="text" id="email" name="email" /><br>
-                            <input type="submit" value="Cadastrar"/>
+                        <h2>Atualizar Usuario:</h2>
+                        <form action="ControleUsuario?action=atualizar" method="POST">
+                            <% 
+                            Usuario usu = (Usuario)request.getAttribute("usuarioUsuario");
+                            %>
+                            <label for="id">ID:</label><input type="text" id="id" name="id" value="<%=usu.getId()%>" /><br>
+                            <label for="nome">Nome:</label><input type="text" id="nome" name="nome" value="<%=usu.getNome()%>" /><br>
+                            <label for="usuario">Login:</label><input type="text" id="usuario" name="usuario" value="<%=usu.getUsuario()%>" /><br>
+                            <label for="senha">Senha:</label><input type="text" id="senha" name="senha" value="<%=usu.getSenha()%>" /><br>
+                            <label for="email">Email:</label><input type="text" id="email" name="email" value="<%=usu.getEmail()%>" /><br>
+                            <label for="nivelAcesso">Nivel de Acesso:</label><input type="text" id="nivelAcesso" name="nivelAcesso" value="<%=usu.getNivelAcesso()%>" /><br>
+                            <input type="submit" value="Atualizar" />
                         </form>
                     </div>
 		</div>
